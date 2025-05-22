@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="lv" class="">
+  <head>
+    <title><%= content_for(:title) || "Digitālais Ceļvedis LU" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "builds/application", "data-turbo-track": "reload" %>
+
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text transition-colors duration-300 min-h-screen">
+    <header class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-depth shadow-md">
+      <div class="flex items-center gap-2">
+        <%= image_tag "logo.png", alt: "LU Logo", class: "h-10 w-10" %>
+        <span class="text-xl font-bold">Digitālais Ceļvedis LU</span>
+      </div>
+
+      <nav class="flex gap-6 text-sm sm:text-base font-medium">
+        <%= link_to "Sākumlapa", root_path, class: "hover:text-orange-500 transition-colors" %>
+        <%= link_to "Supervaroņi", "/superheros", class: "hover:text-orange-500 transition-colors" %>
+        <%= link_to "Mācību padomi", "/padomi", class: "hover:text-orange-500 transition-colors" %>
+        <%= link_to "LU digitālā vide", "/vide", class: "hover:text-orange-500 transition-colors" %>
+      </nav>
+
+      <button id="theme-toggle" class="text-xl hover:text-yellow-500 transition-colors" title="Pārslēgt tēmu">🌞 / 🌙</button>
+    </header>
+
+    <main class="p-6">
+      <%= yield %>
+    </main>
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggle = document.getElementById("theme-toggle");
+      const html = document.documentElement;
+
+      if (localStorage.getItem("theme") === "dark") {
+        html.classList.add("dark");
+      }
+
+      toggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+      });
+    });
+  </script>
+</html>
